@@ -1,46 +1,50 @@
-<head>
-  <link rel="stylesheet" media="all" href="../../../books/index.scss" />
-</head>
+<body>
+  <h1>Books</h1>
 
-<h1>Books</h1>
-
-<table>
-  <thead>
-    <tr>
-      <th>Title</th>
-      <th>Body</th>
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @books.each do |book| %>
+  <table>
+    <thead>
       <tr>
-        <td><%= book.title %></td>
-        <td><%= book.body %></td>
-        <td><%= link_to "Show", book_path(book.id) %></td>
-        <td><%= link_to "Edit", edit_book_path(book) %></td>
-        <td><%= link_to "Destroy", book_path(book.id), method: :delete, "data-confirm" => "Are you sure?" %></td>
+        <th>Title</th>
+        <th>Body</th>
+        <th></th>
       </tr>
-    <% end %>
-  </tbody>
-</table>
+    </thead>
 
-<h2>New book</h2>
-<% if @book.errors.any? %>
-  <%= @book.errors.count %>件のエラーが発生しました>
-  <ul>
-    <% @book.errors.full_messages.each do |message| %>
-      <li><%= message %></li>
-    <% end %>
-  </ul>
+    <tbody>
+      <% @books.each do |book| %>
+        <tr>
+          <td><%= book.title %></td>
+          <td><%= book.body %></td>
+          <td><%= link_to "Show", book_path(book.id) %></td>
+          <td><%= link_to "Edit", edit_book_path(book.id) %></td>
+          <td><%= link_to "Destroy", book_path(book.id), method: :delete, "data-confirm" => "Are you sure?" %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  
+  <div class="flash-message">
+    <%= flash[:notice] %>
+  </div>
 
+  <h2>New book</h2>
 
-<%= form_with model: @book, url:'/books',method: :post do |f| %>
-  <h4>Title</h4>
-  <%= f.text_field :title %>
+  <% if @book.errors.any? %>
+    <%= @book.errors.count %>errors prohibited this book from being saved:
+    <ul>
+      <% @book.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+    </ul>
+  <% end %>
 
-  <h4>Body</h4>
-  <%= f.text_area :body %>
+  <%= form_with model: @book, url:'/books',method: :post do |f| %>
+    <p>Title</p>
+    <%= f.text_field :title %>
 
-  <br><%= f.submit 'Create Book' %></br>
-<% end %>
+    <p>Body</p>
+    <%= f.text_area :body %>
+
+    <br><%= f.submit 'Create Book' %></br>
+  <% end %>
+</body>
